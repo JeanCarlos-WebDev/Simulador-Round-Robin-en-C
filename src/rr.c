@@ -12,22 +12,66 @@
 #include "rr.h"
 
 void rr_init(ColaRR *cola) {
-    /* TODO */
+    cola->size = 0;
+    cola->ultimo = NULL;
 }
 
 void rr_encolar(ColaRR *cola, int pid, const char *nombre, int rafagas) {
-    /* TODO */
+    
+    //Creamos un nuevo nodo con todos los parámetros
+    Nodo *nuevo = malloc(sizeof(Nodo));
+    strcpy(nuevo->nombre, nombre);
+    nuevo->pid = pid;
+    nuevo->rafagas = rafagas;
+    nuevo->siguiente = NULL;
+
+    
+    // Manejamos los punteros
+    //  La cola está vacía
+    if (cola->size == 0){
+        nuevo->siguiente = nuevo;
+        cola->ultimo = nuevo;
+        (*cola).size += 1;
+        return;
+    }
+     // La cola no está vacía
+    nuevo->siguiente = cola->ultimo->siguiente;
+    cola->ultimo->siguiente = nuevo;
+    cola->ultimo = nuevo;
+    (*cola).size += 1;
 }
 
-int rr_tick(ColaRR *cola, int tick) {
-    /* TODO */
-    return 0;
-}
+// int rr_tick(ColaRR *cola, int tick) {
+//     if (cola != NULL && tick == -1000000){}
+//     return 0;
+// }
 
 void rr_liberar(ColaRR *cola) {
-    /* TODO */
+    Nodo *head;
+    if(cola->size == 0){
+        return;
+    }
+    head = cola->ultimo->siguiente;
+    Nodo *lastNode = cola->ultimo;
+    free(lastNode);
+    while (lastNode != head){
+        free(head);
+        head = head->siguiente;
+    }
 }
 
 void rr_imprimir(const ColaRR *cola) {
-    /* TODO */
+    if(cola->size == 0){
+        return;
+    }
+    Nodo *head;
+    head = cola->ultimo->siguiente;
+    Nodo *lastNode = cola->ultimo;
+    while (lastNode != head){
+        printf("PID %d [%s] Rafagas=%d\n", head->pid, head->nombre, head->rafagas);
+        head = head->siguiente;
+
+    }
+    printf("PID %d [%s] Rafagas=%d\n", lastNode->pid, lastNode->nombre, lastNode->rafagas);
+
 }

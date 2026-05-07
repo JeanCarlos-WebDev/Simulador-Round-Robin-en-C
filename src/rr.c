@@ -49,7 +49,7 @@ void rr_encolar(ColaRR *cola, int pid, const char *nombre, int rafagas) {
 void rr_liberar(ColaRR *cola) {
     if (cola->size == 0) return;
 
-    Nodo *actual = cola->ultimo->siguiente; // Empezamos por el primero (head)
+    Nodo *actual = cola->ultimo->siguiente; 
     Nodo *siguiente;
 
     for (int i = 0; i < cola->size; i++) {
@@ -67,9 +67,9 @@ void rr_imprimir(const ColaRR *cola) {
         return;
     }
 
-    Nodo *actual = cola->ultimo->siguiente; // El primero
+    // El primero
+    Nodo *actual = cola->ultimo->siguiente;
     
-    // Usamos el size para evitar confusiones con los punteros
     for (int i = 0; i < cola->size; i++) {
         printf("PID %d [%s] Rafagas=%d\n", actual->pid, actual->nombre, actual->rafagas);
         actual = actual->siguiente;

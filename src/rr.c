@@ -39,12 +39,39 @@ void rr_encolar(ColaRR *cola, int pid, const char *nombre, int rafagas) {
     cola->ultimo->siguiente = nuevo;
     cola->ultimo = nuevo;
     (*cola).size += 1;
+    
 }
 
-// int rr_tick(ColaRR *cola, int tick) {
-//     if (cola != NULL && tick == -1000000){}
-//     return 0;
-// }
+int rr_tick(ColaRR *cola, int tick) {
+    if (cola->size == 0){
+        printf("Cola vacía.\n");
+        return 0;
+    }
+    // El primero
+    Nodo *actual = cola->ultimo->siguiente;
+    
+    actual->rafagas--;
+    printf("Tick %d: ejecutando %s (PID %d) — rafagas restantes: %d\n", 
+        tick, actual->nombre, actual->pid, actual->rafagas);
+    if (actual->rafagas == 0){
+        // se guarda la información antes de liberar actual de memoria
+        Nodo *siguiente = actual->siguiente;
+        int pid = actual->pid;
+        char nombre[50];
+        strcpy(nombre, actual->nombre);
+        if (cola->size == 1){
+            cola->ultimo = NULL;
+        } else {
+            cola->ultimo->siguiente = siguiente;
+        }
+        cola->size--;
+        free(actual);        
+        printf("-> %s (PID %d) terminó.\n", nombre, pid);
+    } else {
+        cola->ultimo = cola->ultimo->siguiente;
+    } 
+    return 1;
+}
 
 void rr_liberar(ColaRR *cola) {
     if (cola->size == 0) return;

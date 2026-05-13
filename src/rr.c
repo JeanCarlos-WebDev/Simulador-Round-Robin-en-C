@@ -66,7 +66,7 @@ int rr_tick(ColaRR *cola, int tick) {
         }
         cola->size--;
         free(actual);        
-        printf("-> %s (PID %d) terminó.\n", nombre, pid);
+        printf("  -> %s (PID %d) terminó.\n", nombre, pid);
     } else {
         cola->ultimo = cola->ultimo->siguiente;
     } 
@@ -98,7 +98,7 @@ void rr_imprimir(const ColaRR *cola) {
     Nodo *actual = cola->ultimo->siguiente;
     
     for (int i = 0; i < cola->size; i++) {
-        printf("PID %d [%s] Rafagas=%d\n", actual->pid, actual->nombre, actual->rafagas);
+        printf("  PID %d [%s] rafagas=%d\n", actual->pid, actual->nombre, actual->rafagas);
         actual = actual->siguiente;
     }
 }
